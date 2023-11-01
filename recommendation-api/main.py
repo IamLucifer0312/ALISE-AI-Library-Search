@@ -39,8 +39,6 @@ sample_data = """
 
 @app.route('/recommend', methods=['POST'])
 def recommend():
-# JSON data as a string
-
 
     # Parse the JSON data
     data = json.loads(request.get_json())
@@ -74,4 +72,4 @@ def recommend():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True, port = 8000)
+    app.run(debug = True, port = 8000)
