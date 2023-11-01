@@ -7,10 +7,11 @@ const express = require("express");
 const app = express();
 
 app.get("/", async (req, res) => {
-    await getKeyWordsFromGPT(req.prompt)
+    // await getKeyWordsFromGPT(req.prompt)
+    res.status(200).json({message: "Hello!"})
 })
 
-getKeyWordsFromGPT("Im new to Python, I need to draw 2D graphics"); // Execute immediately, just for testing
+getKeyWordsFromGPT("Im want to test my Java program, I need an easy to use library for that"); // Execute immediately, just for testing
 
 const PORT = process.env.PORT || 3000
 

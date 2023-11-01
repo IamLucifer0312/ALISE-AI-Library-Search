@@ -1,3 +1,6 @@
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+
 // const getSearchResults = (searchResults) => {
 //     let output = {
 //         count: 10,
@@ -31,7 +34,7 @@ const getReadme = async (repoUrl) => {
   const [_, owner, repo] = path.split('/');
 
   const octokit = new Octokit({
-    auth: `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`,
+    auth: process.env.GITHUB_TOKEN,
   });
 
   const { data } = await octokit.repos.getContent({
