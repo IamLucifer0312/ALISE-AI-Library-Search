@@ -4,4 +4,5 @@ Get server started:
 ```
 cd ./server
 npm i
-node index.js```
+node index.js
+```
