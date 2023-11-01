@@ -6,11 +6,11 @@ const {getKeyWordsFromGPT} = require("./phase_1")
 const express = require("express");
 const app = express();
 
-app.get("/", (req, res) => {
-    res.send("Hello There!")
+app.get("/", async (req, res) => {
+    await getKeyWordsFromGPT(req.prompt)
 })
 
-getKeyWordsFromGPT(); // Execute immediately, just for testing
+getKeyWordsFromGPT("Im new to Python, I need to draw 2D graphics"); // Execute immediately, just for testing
 
 const PORT = process.env.PORT || 3000
 

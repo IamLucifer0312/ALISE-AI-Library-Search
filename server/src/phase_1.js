@@ -11,17 +11,19 @@ let chat = [
         content:
             INITIAL_PROMPT
     },    
-    {
-        role: "user",
-        content:
-            "Im new to Python, I need to draw 2D graphics"
-    },
 ];
 
-
 const getKeyWordsFromGPT = async (userPrompt) => {
+    const response = await getGPTResponse(userPrompt);
+    const keywords = JSON.parse(response.data.choices[0].message.content);
+    console.log(keywords);
+}
+
+const getGPTResponse = async (userPrompt) => {
     try {
-        const response = await axios.post(
+        chat.push(createUserChatEntry(userPrompt))
+
+        const response =  await axios.post(
             "https://api.openai.com/v1/chat/completions",
             {
                 model: "gpt-3.5-turbo",
@@ -35,13 +37,19 @@ const getKeyWordsFromGPT = async (userPrompt) => {
                 },
             }
         );
-            const keywords = JSON.parse(response.data.choices[0].message.content)
-            console.log(keywords);
+        chat.push(response.data.choices[0].message)
+        return response;
+
     } catch (e) {
         console.log(e);
     }
+}
 
-
+const createUserChatEntry = (message) => {
+    return {
+        role: "user",
+        content: message
+    }
 }
 
 module.exports = {getKeyWordsFromGPT} 
