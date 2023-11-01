@@ -1,20 +1,66 @@
+# pip intall flask
+# pip install sklearn
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
+import json
+from flask import Flask, request, jsonify
 
-# Sample library data and user problem description
-libraries = ["Library A", "Library B", "Library C"]
-library_descriptions = ["Library A is a powerful library for data analysis.", "Library B provides efficient algorithms for image processing.", "Library C is a popular web development framework."]
-user_problem = "I need to process image data efficiently."
+# JSON data as a string
+json_data = """
+{
+    "userPrompt": "Find Python library for face detection",
+    "count": 10,
+    "results": [
+        {
+            "owner": "ddesmond",
+            "repo": "face_cog",
+            "url": "www.facecog.com",
+            "readme": "This library is for real time facial recognition using Python."
+        },
 
-# TF-IDF vectorization
-tfidf_vectorizer = TfidfVectorizer()
-tfidf_matrix = tfidf_vectorizer.fit_transform(library_descriptions)
-user_vector = tfidf_vectorizer.transform([user_problem])
+        {
+            "owner": "BuiTo",
+            "repo": "app_Grindr",
+            "url": "www.grindr.com",
+            "readme": "This library is for the website Grindr."
+        },
 
-# Calculate cosine similarity
-cosine_similarities = linear_kernel(user_vector, tfidf_matrix)
+        {
+            "owner": "TeTe",
+            "repo": "object_detection",
+            "url": "www.objdet.com",
+            "readme": "This library is objection detection using tensorflow"
+        }
+    ]
+}
+"""
 
-# Get library recommendations
-library_recommendations = [libraries[i] for i in cosine_similarities.argsort()[0][::-1]]
+# Parse the JSON data
+data = json.loads(json_data)
 
-print("Recommended Libraries:", library_recommendations)
+repos = []
+readmes = []
+user_prompt = data['userPrompt']
+
+# Extract the 'repo', 'url', and 'readme' fields
+for result in data['results']:
+    repos.append(result)
+    readmes.append(result['readme'])
+
+def sort_by_relevance(repos, readmes, user_prompt):
+    # TF-IDF vectorization
+    tfidf_vectorizer = TfidfVectorizer()
+    tfidf_matrix = tfidf_vectorizer.fit_transform(readmes)
+    user_vector = tfidf_vectorizer.transform([user_prompt])
+
+    # Calculate cosine similarity
+    cosine_similarities = linear_kernel(user_vector, tfidf_matrix)
+
+    # Get library recommendations
+    repos_recommendations = [repos[i] for i in cosine_similarities.argsort()[0][::-1]]
+    return repos_recommendations
+
+repos_recommendations = sort_by_relevance(repos, readmes, user_prompt)
+print("Recommended Libraries:", repos_recommendations)
+data['results'] = repos_recommendations
