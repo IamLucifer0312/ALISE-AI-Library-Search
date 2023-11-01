@@ -43,7 +43,7 @@ def recommend():
 
 
     # Parse the JSON data
-    data = json.loads(request.get_json())
+    data = request.get_json()
 
     repos = []
     readmes = []

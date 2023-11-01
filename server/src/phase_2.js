@@ -1,7 +1,5 @@
 const axios = require("axios");
 
-let keywords = ["Java", "2D", "Graphics"]
-
 async function searchGithub(keywords) {
     try {
         let url ='https://api.github.com/search/repositories?q=';
@@ -10,11 +8,21 @@ async function searchGithub(keywords) {
         }
         url.slice(0, -1);
         const response = await axios.get(url);
-        console.log(response.data);
-        return response.data;
+        // console.log(response.data);
+        return extractURLs(response.data);
     } catch (e) {
         console.log(e);
     }
 }
 
-searchGithub(keywords);
+function extractURLs(data) {
+    let urls = [];
+    for (let i = 0; i < data.items.length; i++) {
+        let value = data.items[i].html_url;
+        urls.push(value);
+    }
+    // console.log(urls);
+    return urls;
+}
+
+module.exports = {searchGithub}
