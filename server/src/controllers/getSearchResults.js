@@ -1,6 +1,6 @@
 const axios = require("axios")
 
-const {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults} = require("../phase_1")
+const {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults} = require("../gptQuery")
 const {searchGithub} = require("../phase_2")
 const {extractDataFromURLs, createRecommendationObj} = require("../phase_3")
 

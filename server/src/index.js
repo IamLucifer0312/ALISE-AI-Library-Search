@@ -1,7 +1,7 @@
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-const {getKeyWordsFromGPT} = require("./phase_1")
+const {getKeyWordsFromGPT} = require("./gptQuery")
 const {processPrompt} = require("./controllers/getSearchResults")
 
 const express = require("express");
