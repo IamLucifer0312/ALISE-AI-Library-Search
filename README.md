@@ -41,21 +41,28 @@ pip install flask
 pip install scikit-learn
 ```
 
-3. Navigate to the 'server' directory and type the following into the terminal
+3. Create an '.env' file to store your API keys and tokens
+
+```
+OPEN_AI_API_KEY = <insert your key>
+GITHUB_TOKEN = <insert your token>
+```
+
+4. Navigate to the 'server' directory and type the following into the terminal
 
 ```
 npm install
 npm run dev
 ```
 
-4. Navigate to the 'client\ALiSe' and type the following into the terminal
+5. Navigate to the 'client\ALiSe' and type the following into the terminal
 
 ```
 npm install
 npm run dev
 ```
 
-5. Run the 'main.py' file 
+6. Run the 'main.py' file 
 
 ## License
 This project is licensed under the MIT License, allowing you to use, modify, and distribute the code for both commercial and non-commercial purposes.
