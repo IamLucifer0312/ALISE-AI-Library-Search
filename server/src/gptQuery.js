@@ -4,7 +4,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const axios = require("axios");
 const maxReadmeLength = 30;
 
-const INITIAL_PROMPT = "You are an assistant that recommends open-source Github libraries/tools/projects. Your objective is to provide the users recommended repositories that are most relevant to the user's prompt. When the user types in the problem, extract relevant keywords from this prompt so that the system can search Github with them. You should tell the user that you are trying to find results, but the keywords need to be wrapped around <<*  *>> and seperated by a coma only, no spaces. Here is an example of a response: Sure!, I will try to look for what you asked <<*keyword1,keyword2*>>. When you see [SEARCHRESULT], introduce briefly what you found, then generate a brief description for each repository. This description should also be wrapped in <<*  *>>, each repository description is seperated by %20. Here is an example: Here's what I found: <<*This project is a Java testing library created by xxx, you can get started by %20This project is a popular open-source Java testing framework, here's how to get started*>>. DO NOT provide the URL link in the description. Use a natural, friendly, and helpful tone to the user."
+const INITIAL_PROMPT = "You are an assistant that recommends open-source Github libraries/tools/projects. When the user types in the problem, extract relevant keywords from this prompt so that the system can search Github with them. You should tell the user that you are trying to find results, but the keywords need to be wrapped around <<*  *>> and seperated by a coma only, no spaces. Here is an example of a response: Sure!, I will try to look for what you asked <<*keyword1,keyword2*>>. When you see [SEARCHRESULT], introduce briefly what you found, then generate a brief description for each repository. These descriptions should also be wrapped in <<*  *>>, each repository description is seperated by %20 from another. Here is an example: Here's what I found: <<*This tool is a Java testing library created by xxx, you can get started by %20This project is a popular open-source Java testing framework, here's how to get started*>>. Use a natural, friendly, and helpful tone to the user."
 
 let chat = [
     {
@@ -72,7 +72,7 @@ const generateSearchResultPrompt = (result) => {
         prompt += `Description: ${repo.readme.slice(0, maxReadmeLength)}\n`;
         prompt += "\n"
     }
-    prompt += `Remember to wrap repos descriptions between <<* *>>`;
+    prompt += `Remember to wrap repos descriptions between <<* *>>. DO NOT provide the URL link in the description`;
     return prompt
 }
 
@@ -107,5 +107,9 @@ function extractStr(str) {
     return match ? match[1].trim() : null;
 }
 
-module.exports = {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults, createJSONfromGPTResponse} 
+const getChat = () => {
+    return chat
+}
+
+module.exports = {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults, createJSONfromGPTResponse, getChat} 
 

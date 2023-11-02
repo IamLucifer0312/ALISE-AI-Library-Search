@@ -1,6 +1,6 @@
 const axios = require("axios")
 
-const {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults, createJSONfromGPTResponse} = require("../gptQuery")
+const {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults, createJSONfromGPTResponse, getChat} = require("../gptQuery")
 const {searchGithub} = require("../githubQuery")
 const {extractDataFromURLs, createRecommendationObj} = require("../repoProcessing")
 
@@ -22,8 +22,9 @@ const processPrompt = async (req, res) => {
 
     const resultPrompt = generateSearchResultPrompt(recommendationResponse.data)
     const gptResponse = await giveGPTSearchResults(resultPrompt);
-    const json = createJSONfromGPTResponse(recommendationResponse.data, gptResponse.data.choices[0].message.content)
-    console.log(json);
+    return res.status(200).json(getChat())
+    // const json = createJSONfromGPTResponse(recommendationResponse.data, gptResponse.data.choices[0].message.content)
+    // console.log(json);
 }
 
 req = {
