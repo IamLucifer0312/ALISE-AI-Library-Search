@@ -4,13 +4,9 @@ Welcome to ALiSe (AI Library Search), an innovative AI-powered tool developed by
 
 ## Table of Contents
 - [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
 - [License](#license)
-- [Acknowledgements](#acknowledgements)
 
 ## Features
 
@@ -60,8 +56,6 @@ npm run dev
 ```
 
 5. Run the 'main.py' file 
-
-6. Enjoy!
 
 ## License
 This project is licensed under the MIT License, allowing you to use, modify, and distribute the code for both commercial and non-commercial purposes.
