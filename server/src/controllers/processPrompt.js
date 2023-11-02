@@ -5,7 +5,7 @@ const {searchGithub} = require("../githubQuery")
 const {extractDataFromURLs, createRecommendationObj} = require("../repoProcessing")
 
 const processPrompt = async (req, res) => {
-    const {userPrompt} = req;
+    const {userPrompt} = req.body;
 
     const keywords = await getKeyWordsFromGPT(userPrompt);
     const urls = await searchGithub(keywords);
@@ -26,11 +26,5 @@ const processPrompt = async (req, res) => {
     // const json = createJSONfromGPTResponse(recommendationResponse.data, gptResponse.data.choices[0].message.content)
     // console.log(json);
 }
-
-req = {
-    userPrompt: "I want a Python library for 2D graphics"
-}
-
-processPrompt(req, null)
 
 module.exports = {processPrompt}
