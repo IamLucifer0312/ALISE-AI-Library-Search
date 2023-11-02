@@ -44,4 +44,4 @@ def sort_by_relevance(repos, readmes, user_prompt):
     return repos_recommendations[:MAX_RESULT]
 
 if __name__ == '__main__':
-    app.run(port = 8000)
+    app.run(port = 7000)

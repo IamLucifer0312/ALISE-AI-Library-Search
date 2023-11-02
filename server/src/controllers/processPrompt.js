@@ -4,6 +4,9 @@ const {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults, cre
 const {searchGithub} = require("../githubQuery")
 const {extractDataFromURLs, createRecommendationObj} = require("../repoProcessing")
 
+const RECOMMENDATION_API_PORT = 7000;
+
+
 const processPrompt = async (req, res) => {
     const {userPrompt} = req.body;
 
@@ -14,7 +17,7 @@ const processPrompt = async (req, res) => {
 
     // Post to recommendation API
     console.log("Ranking relevant results...");    //DEBUG
-    const recommendationResponse = await axios.post("http://127.0.0.1:8000/recommend", recommendationObj);
+    const recommendationResponse = await axios.post(`http://127.0.0.1:${RECOMMENDATION_API_PORT}/recommend`, recommendationObj);
     
     for (let i = 0; i < recommendationResponse.data.count; i++) {
         console.log(recommendationResponse.data.results[i].url);

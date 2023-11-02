@@ -4,6 +4,11 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import axios from "axios"
 
+const splitNewLine = (text) => {
+  return text.split('\n')
+  .map(e => <p>{e}</p>)
+}
+
 function App() {
   const [inputValue, setInputValue] = useState(""); 
   const [userPrompt, setUserPrompt] = useState(""); // State to store user's input
@@ -30,11 +35,15 @@ function App() {
           if (entry.role == "system") return
 
           if (entry.role == "user") {
-            return <div className = 'message user-message' key={key}>{entry.content}</div>  
+            return <div className = 'message user-message' key={key}>{
+              splitNewLine(entry.content)
+            }</div>  
           }
 
           if (entry.role == "assistant") {
-            return <div className = 'message ai-message' key={key}>{entry.content}</div>  
+            return <div className = 'message ai-message' key={key}>{
+              splitNewLine(entry.content)
+              }</div>  
           }
 
         })}
