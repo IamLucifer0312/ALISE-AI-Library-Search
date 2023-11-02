@@ -14,15 +14,24 @@ let chat = [
 ];
 
 const getKeyWordsFromGPT = async (userPrompt) => {
+    console.log(`User Prompt: ${userPrompt}`); // DEBUG
+
+    console.log("Prompting GPT...");    // DEBUG
     const response = await getGPTResponse("user", userPrompt);
     const keywords = response.data.choices[0].message.content.split(", ");
-    console.log(`Keywords: ${keywords}`);
+    console.log(`Keywords: ${keywords}`);   // DEBUG
     return keywords
 }
 
-const getGPTResponse = async (role, userPrompt) => {
+const giveGPTSearchResults = async (prompt) => {
+    console.log("Prompting GPT...");    // DEBUG
+    const response = await getGPTResponse("system", prompt);
+    return response.data;
+}
+
+const getGPTResponse = async (role, prompt) => {
     try {
-        const chatEntry = (role == "user" ? createUserChatEntry(userPrompt) : createSystemChatEntry(userPrompt))
+        const chatEntry = (role == "user" ? createUserChatEntry(prompt) : createSystemChatEntry(prompt))
         chat.push(chatEntry)
 
         const response =  await axios.post(
@@ -48,10 +57,6 @@ const getGPTResponse = async (role, userPrompt) => {
     }
 }
 
-const giveGPTSearchResults = async (prompt) => {
-    const response = await getGPTResponse("system", prompt);
-    return response.data;
-}
 
 const generateSearchResultPrompt = (result) => {
     let prompt = "Here's what the search engine found: \n"

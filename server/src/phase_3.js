@@ -1,9 +1,6 @@
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-const {searchGithub} = require("./phase_2");
-
-
 const maxNumResults = 6
 
 // Fuctions to extract data from URLs
@@ -14,7 +11,7 @@ const extractDataFromURLs = async (reposURLs) => {
   let counter = 0
 
   for (let i = 0; i < reposURLs.length; i++) {
-    if (counter == maxNumResults) break
+    if (counter >= maxNumResults) break
     
     let repo = await createRepoObj(reposURLs[i]);
     if (!repo) {
@@ -22,7 +19,7 @@ const extractDataFromURLs = async (reposURLs) => {
     }
 
     reposResult.results.push(repo);
-    counter += 1;
+    counter ++;
   }
   
   reposResult.count = reposResult.results.length;
@@ -79,18 +76,5 @@ const getReadme = async (repoUrl) => {
       return "error"
   }
 }
-
-// // Testing
-// let keywords = ["NodeJS", "Testing", "Library"]
-
-// const test = async () => {
-//   const urls = await searchGithub(keywords);
-//   const extractedData = await extractDataFromURLs(urls);
-//   const recommendationObj = createRecommendationObj(extractedData, "I want to test my Java program, I need an easy to use library for that")
-//   console.log(recommendationObj);
-//   // console.log(extractedData);
-// }
-
-// test();
 
 module.exports = {extractDataFromURLs, createRecommendationObj}
