@@ -5,11 +5,17 @@ import './App.css'
 import axios from "axios"
 
 function App() {
+  const [inputValue, setInputValue] = useState(""); 
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value); 
+  }
+
   const handleClick = async () => {
     const response = await axios.post("http://localhost:3000/prompt", {
-      userPrompt: "I want a Java 3D graphics library"
-    })
-    // console.log("Hello World");
+      userPrompt: inputValue,
+    });
+    console.log(response);
   }
 
   return (
@@ -20,7 +26,8 @@ function App() {
         <div class = 'message' id = 'AI-answer-title'>Here's what I have found</div>
         <div class = 'message' id = 'AI-answers'>Library one</div>
         <div id = 'chat-bar'>
-          <input type="text" id="chat-input" placeholder="Type a message..."/>
+          <input type="text" id="chat-input" placeholder="Type a message..." value={inputValue}
+            onChange={handleInputChange}/>
           <button id ="chat-button" onClick={handleClick}>Send</button>
         </div>
       </div>
