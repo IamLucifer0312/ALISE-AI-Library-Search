@@ -19,7 +19,10 @@ function App() {
         <div id = 'user-prompt'>Hello fasjkfjadsfjasfadsfadsfasdfadsfsdfdsaf</div>
         <div id = 'AI-answer-title'>Here's what I have found</div>
         <div id = 'AI-answers'>Library one</div>
-        <button onClick={handleClick}>Send</button>
+        <div id = 'chat-bar'>
+          <input type="text" id="chat-input" placeholder="Type a message..."/>
+          <button id ="chat-button" onClick={handleClick}>Send</button>
+        </div>
       </div>
     </div>
   );

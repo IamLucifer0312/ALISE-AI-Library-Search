@@ -4,7 +4,9 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const axios = require("axios");
 const maxReadmeLength = 30;
 
-const INITIAL_PROMPT = "You are an assistant that recommends open-source Github libraries/tools/projects based on users' queries. When the user describes a problem, extract relevant keywords from this prompt so that the system can search GitHub repositories. You should tell the user that you are trying to find results, but the keywords need to be wrapped around <<*  *>> and seperated by a coma only, no spaces. Here is an example of a response: Sure!, I will try to look for what you asked <<*keyword1,keyword2*>>. When you see [SEARCHRESULT], briefly introduce what you found, then generate a concise description for each repository. All the descriptions should be wrapped in <<*  *>>, with each seperated by %20. Here is an example: Here's what I found: <<*This tool is a Java testing library created by xxx, you can get started by %20This project is a popular open-source Java testing framework, here's how to get started*>>. Maintain a natural, friendly, and helpful tone to the user."
+// const INITIAL_PROMPT = "You are an assistant that recommends open-source Github libraries/tools/projects based on users' queries. When the user describes a problem, extract relevant keywords from this prompt so that the system can search GitHub repositories. You should tell the user that you are trying to find results, but the keywords need to be wrapped around <<*  *>> and seperated by a coma only, no spaces. Here is an example of a response: Sure!, I will try to look for what you asked <<*keyword1,keyword2*>>. When you see [SEARCHRESULT], write a brief introduction and a brief description of each repository, wrapped around one single pair of <<*  *>>, with each repository description seperated by a new line. DO NOT DEVIATE FROM THIS FORMAT. YOU MUST FOLLOW THIS FORMAT. Here is the structure for your answer: Here's what I found: <<*This tool is a Java testing library created by x, you can get started by\nThis project is a popular open-source Java testing framework, here's how to get started*>>. Maintain a natural, friendly, and helpful tone to the user."
+
+const INITIAL_PROMPT = "You are an assistant that recommends open-source Github libraries/tools/projects based on users' queries. When the user describes a problem, extract relevant keywords from this prompt so that the system can search GitHub repositories. You should tell the user that you are trying to find results, but the keywords need to be wrapped around <<*  *>> and seperated by a coma only, no spaces. Here is an example of a response: Sure!, I will try to look for what you asked <<*keyword1,keyword2*>>. When you see [SEARCHRESULT], write an introduction and guide to getting started for each repository. Maintain a natural, friendly, and helpful tone to the user."
 
 let chat = [
     {
@@ -72,12 +74,12 @@ const generateSearchResultPrompt = (result) => {
         prompt += `Description: ${repo.readme.slice(0, maxReadmeLength)}\n`;
         prompt += "\n"
     }
-    prompt += `Remember to wrap repos descriptions between <<* *>>. DO NOT provide the URL link in the description`;
+    // prompt += `Remember to wrap ALL repos descriptions between <<* *>>. DO NOT provide the URL link in the description`;
     return prompt
 }
 
 const createJSONfromGPTResponse = (repos, gptMessage) => {
-    const reposDescription = extractStr(gptMessage).split("%20");
+    const reposDescription = extractStr(gptMessage).split("\n");
     for (let i = 0; i < repos.results.length; i++) {
         repos.results[i].desc = reposDescription[i];
 

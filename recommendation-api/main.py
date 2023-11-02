@@ -23,7 +23,7 @@ def recommend():
         # repos.append(result)
         readmes.append(result['readme'])
 
-    repos_recommendations = sort_by_relevance(data.results, readmes, user_prompt)
+    repos_recommendations = sort_by_relevance(data['results'], readmes, user_prompt)
     data['results'] = repos_recommendations
     data['count'] = len(repos_recommendations)
 
