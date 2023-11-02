@@ -22,7 +22,6 @@ def recommend():
         readmes.append(result['readme'])
 
     repos_recommendations = sort_by_relevance(repos, readmes, user_prompt)
-    print("Recommended Libraries:", repos_recommendations)
     data['results'] = repos_recommendations
 
     return jsonify(data)
@@ -42,4 +41,4 @@ def sort_by_relevance(repos, readmes, user_prompt):
     return repos_recommendations
 
 if __name__ == '__main__':
-    app.run(debug = True, port = 8000)
+    app.run(port = 8000)

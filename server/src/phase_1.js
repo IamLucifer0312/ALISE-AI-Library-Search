@@ -4,7 +4,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const axios = require("axios");
 const maxReadmeLength = 50;
 
-const INITIAL_PROMPT = "You are an assistant that recommends open-source Github libraries/tools/projects. When the user types in the problem, extract relevant keywords from this prompt so that the system can search Github with them. The extracted keywords should be a format like this: 'word1', 'word2'. Do not provide any other response, just the keywords."
+const INITIAL_PROMPT = "You are an assistant that recommends open-source Github libraries/tools/projects. When the user types in the problem, extract relevant keywords from this prompt so that the system can search Github with them. You should tell the user that you are trying to find results, but the keywords need to be wrapped around <<*  *>> and seperated by a coma only, no spaces. Here is an example of a response: Sure!, I will try to look for what you asked <<*keyword1,keyword2*>>"
 
 let chat = [
     {
@@ -15,10 +15,10 @@ let chat = [
 
 const getKeyWordsFromGPT = async (userPrompt) => {
     console.log(`User Prompt: ${userPrompt}`); // DEBUG
-
     console.log("Prompting GPT...");    // DEBUG
+
     const response = await getGPTResponse("user", userPrompt);
-    const keywords = response.data.choices[0].message.content.split(", ");
+    const keywords = extractStr(response.data.choices[0].message.content).split(",");
     console.log(`Keywords: ${keywords}`);   // DEBUG
     return keywords
 }
@@ -32,6 +32,7 @@ const giveGPTSearchResults = async (prompt) => {
 const getGPTResponse = async (role, prompt) => {
     try {
         const chatEntry = (role == "user" ? createUserChatEntry(prompt) : createSystemChatEntry(prompt))
+
         chat.push(chatEntry)
 
         const response =  await axios.post(
@@ -48,6 +49,8 @@ const getGPTResponse = async (role, prompt) => {
                 },
             }
         );
+        console.log(`GPT response:\n ${response.data.choices[0].message.content}`); // DEBUG
+        
         chat.push(response.data.choices[0].message)
         
         return response;
@@ -85,6 +88,12 @@ const createSystemChatEntry = (message) => {
         role: "system",
         content: message
     }
+}
+
+function extractStr(str) {
+    // Extract any string wrapped between <<*  *>>
+    var match = str.match(/<<\*(.*?)\*\>>/);
+    return match ? match[1].trim() : null;
 }
 
 module.exports = {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults} 

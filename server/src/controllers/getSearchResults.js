@@ -22,7 +22,6 @@ const processPrompt = async (req, res) => {
 
     const resultPrompt = generateSearchResultPrompt(recommendationResponse.data)
     const gptResponse = await giveGPTSearchResults(resultPrompt);
-    console.log(gptResponse.choices[0].message.content);
 }
 
 req = {
