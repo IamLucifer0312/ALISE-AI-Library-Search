@@ -1,7 +1,7 @@
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-const maxNumResults = 6
+const maxNumResults = 20
 
 // Fuctions to extract data from URLs
 const extractDataFromURLs = async (reposURLs) => {
@@ -34,8 +34,16 @@ const createRecommendationObj = (reposResult, userPrompt) => {
 }
 
 const createRepoObj = async (url) => {
-  const [_, owner, repo] = url.split('/');
+  // Define a regular expression pattern to match the owner and repo name
+  const pattern = /https:\/\/github\.com\/([^/]+)\/([^/]+)/;
+
+  // Use the `match` method to extract the owner and repo name
+  const match = url.match(pattern);
+
+  const owner = match[1];
+  const repo = match[2];
   const readme = await getReadme(url);
+  
   if (readme == "error") {
     return null;
   }
