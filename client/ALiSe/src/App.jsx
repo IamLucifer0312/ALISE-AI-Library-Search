@@ -28,12 +28,21 @@ function App() {
     setInputValue(e.target.value); 
   }
 
-  const handleClick = async () => {    
+  const handleClick = async () => { 
+    // Create a new chat message object based on the user's input
+    const userMessage = {
+      role: "user",
+      content: inputValue,
+    };
+    let lastInput = inputValue;
+    setInputValue("");
+    // Add the user message to the chat state
+    setChat([...chat, userMessage]);
     const response = await axios.post("http://localhost:3000/prompt", {
-      userPrompt: inputValue,
+      userPrompt: lastInput,
     });
     console.log(response.data);
-    setChat(response.data)
+    setChat(response.data);
   }
 
   return (
