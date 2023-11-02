@@ -70,6 +70,8 @@ button:focus-visible {
 
 .container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .header {
@@ -89,11 +91,14 @@ button:focus-visible {
   padding: 20px;
   width: 800px;
   height: 500px;
-  margin: 100px auto;
+  margin: 100px auto 20px auto;
   background-color: #ffffff;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: relative;
 }
 
-#user-prompt {
+.user-message {
   color: #333;
   margin-right: 0;
   margin-left: auto;
@@ -103,30 +108,27 @@ button:focus-visible {
   color: white;
 }
 
-#AI-answer-title {
+
+
+.ai-message {
   color: #333;
+  margin-right: auto;
   font-weight: bold;
   margin-right: auto;
   background-color: #f5f5f5;
 }
 
-#AI-answers {
-  color: #333;
-  margin-right: auto;
-  background-color: #007BFF;
-  color: white;
-}
-
 #chat-bar {
   display: flex;
-  margin-top: auto;
-  width: 100%;
+  width: 700px;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
   background-color: #ffffff;
   max-height: 500px;
   overflow-y: auto;
+  margin-bottom: 20px;
+  
 }
 
 #chat-input {
@@ -152,7 +154,7 @@ button:focus-visible {
 
 .message {
   display: inline-block;
-  max-width: 50%;
+  max-width: 60%;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 10px;
