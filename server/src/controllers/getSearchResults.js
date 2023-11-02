@@ -1,8 +1,8 @@
 const axios = require("axios")
 
 const {getKeyWordsFromGPT, generateSearchResultPrompt, giveGPTSearchResults} = require("../gptQuery")
-const {searchGithub} = require("../phase_2")
-const {extractDataFromURLs, createRecommendationObj} = require("../phase_3")
+const {searchGithub} = require("../githubQuery")
+const {extractDataFromURLs, createRecommendationObj} = require("../repoProcessing")
 
 const processPrompt = async (req, res) => {
     const {userPrompt} = req;

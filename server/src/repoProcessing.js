@@ -5,6 +5,7 @@ const maxNumResults = 6
 
 // Fuctions to extract data from URLs
 const extractDataFromURLs = async (reposURLs) => {
+  console.log("Extracting Repo Info..."); // DEBUG
   const reposResult = {
     results: []
   };
