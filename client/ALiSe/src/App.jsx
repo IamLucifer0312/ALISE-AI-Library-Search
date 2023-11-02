@@ -9,6 +9,16 @@ const splitNewLine = (text) => {
   .map(e => <p>{e}</p>)
 }
 
+function removeStr(input) {
+  // Use a regular expression to match and remove the string enclosed in <<* and *>>.
+  const pattern = /<<\*.*?\*>>/g;
+  
+  // Use the replace method to remove all occurrences of the pattern with an empty string.
+  const result = input.replace(pattern, '');
+  
+  return result;
+}
+
 function App() {
   const [inputValue, setInputValue] = useState(""); 
   const [userPrompt, setUserPrompt] = useState(""); // State to store user's input
@@ -42,7 +52,7 @@ function App() {
 
           if (entry.role == "assistant") {
             return <div className = 'message ai-message' key={key}>{
-              splitNewLine(entry.content)
+              splitNewLine(removeStr(entry.content))
               }</div>  
           }
 
