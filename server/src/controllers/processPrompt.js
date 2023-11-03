@@ -6,6 +6,7 @@ const {extractDataFromURLs, createRecommendationObj} = require("../repoProcessin
 
 const RECOMMENDATION_API_PORT = 7000;
 
+let allSearchResults = [];
 
 const processPrompt = async (req, res) => {
     const {userPrompt} = req.body;
@@ -25,9 +26,12 @@ const processPrompt = async (req, res) => {
 
     const resultPrompt = generateSearchResultPrompt(recommendationResponse.data)
     const gptResponse = await giveGPTSearchResults(resultPrompt);
-    return res.status(200).json(getChat())
-    // const json = createJSONfromGPTResponse(recommendationResponse.data, gptResponse.data.choices[0].message.content)
-    // console.log(json);
+    const searchResultJSON = createJSONfromGPTResponse(recommendationResponse.data, gptResponse.data.choices[0].message.content)
+    // console.log(searchResultJSON);
+    allSearchResults.push(searchResultJSON)
+    const responseJSON = {chat: getChat(), searchResults: allSearchResults}
+    console.log(responseJSON);
+    return res.status(200).json(responseJSON)
 }
 
 module.exports = {processPrompt}
